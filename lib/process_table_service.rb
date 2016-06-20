@@ -1,6 +1,6 @@
-require_relative 'base_http_service'
+require_relative 'http_api_service'
 
-class ProcessTableService < BaseHttpService
+class ProcessTableService < HttpApiService
   attr_reader :process_table
 
   def initialize(base_url:, client_id:, client_secret:, process_table:)

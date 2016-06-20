@@ -1,6 +1,6 @@
-require_relative 'base_http_service'
+require_relative 'http_api_service'
 
-class DiskUsageService < BaseHttpService
+class DiskUsageService < HttpApiService
   attr_reader :amount, :ratio
 
   def initialize(base_url:, client_id:, client_secret:, amount:, ratio:)

@@ -1,6 +1,7 @@
 require 'json'
+require_relative 'authentication_service'
 
-class BaseHttpService
+class HttpApiService
   attr_reader :base_url, :client_id, :client_secret
 
   def initialize(base_url:, client_id:, client_secret:)
@@ -20,12 +21,24 @@ class BaseHttpService
   end
 
   def post
-    response = connection.post "/api/v1#{path}", payload
+    response = connection.post url, payload do |req|
+      req.headers['Authorization'] = "Bearer #{authentication_service.call}"
+    end
     if response.success?
-      JSON.parse response.body
+      JSON.parse(response.body, symbolize_names: true, object_class: OpenStruct)
     else
       raise ServiceResponseError(status: response.status)
     end
+  end
+
+  def authentication_service
+    @authentication_service ||= AuthenticationService.new(base_url:      base_url,
+                                                          client_id:     client_id,
+                                                          client_secret: client_secret)
+  end
+
+  def url
+    "/api/v1#{path}"
   end
 
   def path

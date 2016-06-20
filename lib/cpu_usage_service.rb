@@ -1,6 +1,6 @@
-require_relative 'base_http_service'
+require_relative 'http_api_service'
 
-class CpuUsageService < BaseHttpService
+class CpuUsageService < HttpApiService
   attr_reader :amount
 
   def initialize(base_url:, client_id:, client_secret:, amount:)

@@ -9,5 +9,4 @@ gem 'json'
 gem 'rufus-scheduler'
 gem 'usagewatch_ext'
 gem 'faraday'
-gem 'faraday_middleware'
 
