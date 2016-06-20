@@ -2,12 +2,13 @@ require 'json'
 require_relative 'authentication_service'
 
 class HttpApiService
-  attr_reader :base_url, :client_id, :client_secret
+  attr_reader :base_url, :client_id, :client_secret, :logger
 
-  def initialize(base_url:, client_id:, client_secret:)
+  def initialize(base_url:, client_id:, client_secret:, logger:)
     @client_id     = client_id
     @client_secret = client_secret
     @base_url      = base_url
+    @logger        = logger
   end
 
   def call
@@ -34,7 +35,8 @@ class HttpApiService
   def authentication_service
     @authentication_service ||= AuthenticationService.new(base_url:      base_url,
                                                           client_id:     client_id,
-                                                          client_secret: client_secret)
+                                                          client_secret: client_secret,
+                                                          logger:        logger)
   end
 
   def url

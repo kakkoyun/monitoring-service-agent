@@ -2,11 +2,13 @@ require 'json'
 require_relative 'http_api_service'
 
 class AuthenticationService
+  attr_reader :logger
 
-  def initialize(base_url:, client_id:, client_secret:)
+  def initialize(base_url:, client_id:, client_secret:, logger:)
     @client_id     = client_id
     @client_secret = client_secret
     @base_url      = base_url
+    @logger        = logger
     @retry_count   = 3
   end
 
@@ -16,7 +18,7 @@ class AuthenticationService
         if (authentication_response = post)
           @retry_count = 3
           access_token = authentication_response.access_token
-          puts "Access Token #{access_token}"
+          logger.info "Access Token #{access_token}"
           access_token
         else
           # TODO: Check unauthorized.
@@ -24,13 +26,13 @@ class AuthenticationService
           call
         end
       else
-        puts "Retry Count exceeded!"
+        logger.info "Retry Count exceeded!"
         raise UnauthorizedError
       end
     end
   rescue UnauthorizedError => e
     # TODO: !!
-    puts 'Lost connection with server.'
+    logger.info 'Lost connection with server.'
     Process.kill("KILL", Process.pid)
   end
 

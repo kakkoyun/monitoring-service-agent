@@ -3,18 +3,18 @@ require_relative 'http_api_service'
 class CpuUsageService < HttpApiService
   attr_reader :amount
 
-  def initialize(base_url:, client_id:, client_secret:, amount:)
+  def initialize(base_url:, client_id:, client_secret:, amount:, logger:)
     @amount = amount
-    super(base_url: base_url, client_id: client_id, client_secret: client_secret)
+    super(base_url: base_url, client_id: client_id, client_secret: client_secret, logger: logger)
   end
 
   def call
-    puts Time.now
+    logger.info Time.now
     post
-    puts "#{amount}% CPU Used"
-    puts "---\n\n"
+    logger.info "#{amount}% CPU Used"
+    logger.info "---\n\n"
   rescue ServiceResponseError => e
-    puts "CpuUsageService #{e.status}"
+    logger.info "CpuUsageService #{e.status}"
   end
 
   def path

@@ -7,7 +7,7 @@ require_relative 'process_table_service'
 
 class Agent
 
-  def initialize(base_url:, client_id:, client_secret:)
+  def initialize(base_url:, client_id:, client_secret:, logger:)
     @scheduler = Rufus::Scheduler.new
     @watcher   = Usagewatch
     @jobs      = []
@@ -15,6 +15,7 @@ class Agent
     @base_url      = base_url
     @client_id     = client_id
     @client_secret = client_secret
+    @logger        = logger
   end
 
   def start
@@ -38,7 +39,8 @@ class Agent
       CpuUsageService.new(base_url:      @base_url,
                           client_id:     @client_id,
                           client_secret: @client_secret,
-                          amount:        @watcher.uw_cpuused).call
+                          amount:        @watcher.uw_cpuused,
+                          logger:        @logger).call
 
     end
   end
@@ -49,7 +51,8 @@ class Agent
                            client_id:     @client_id,
                            client_secret: @client_secret,
                            amount:        @watcher.uw_diskused,
-                           ratio:         @watcher.uw_diskused_perc).call
+                           ratio:         @watcher.uw_diskused_perc,
+                           logger:        @logger).call
     end
   end
 
@@ -58,7 +61,8 @@ class Agent
       ProcessTableService.new(base_url:      @base_url,
                               client_id:     @client_id,
                               client_secret: @client_secret,
-                              process_table: @watcher.uw_cputop).call
+                              process_table: @watcher.uw_cputop,
+                              logger:        @logger).call
     end
   end
 end
