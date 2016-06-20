@@ -1,3 +1,5 @@
+require 'json'
+
 class BaseAgentService
   attr_reader :client_id, :client_secret
 

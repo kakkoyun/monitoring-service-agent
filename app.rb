@@ -1,6 +1,5 @@
 require 'sinatra/base'
 require 'yaml'
-require 'json' # require 'oauth2'
 require_relative 'lib/agent'
 
 
@@ -13,10 +12,11 @@ class MonitoringAgent < Sinatra::Base
     # Read secrets from config file.
     secrets             = YAML.load_file('config/secrets.yml')
     environment_secrets = secrets.fetch(settings.environment.to_s)
+    server_base_url     = environment_secrets.fetch("server_base_url")
     client_id           = environment_secrets.fetch("client_id")
     client_secret       = environment_secrets.fetch('client_secret')
-    unless client_id || client_secret
-      puts "Missing configuration. You need to provide OAuth Credentials."
+    unless client_id || client_secret || server_base_url
+      puts "Missing configuration. You need to provide server address and OAuth Credentials."
       Process.kill("KILL", Process.pid)
     end
 
