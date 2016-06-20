@@ -1,14 +1,27 @@
-require_relative 'base_agent_service'
+require_relative 'base_http_service'
 
-class CpuUsageService < BaseAgentService
+class CpuUsageService < BaseHttpService
   attr_reader :amount
 
-  def initialize(client_id:, client_secret:, amount:)
+  def initialize(base_url:, client_id:, client_secret:, amount:)
     @amount = amount
-    super(client_id: client_id, client_secret: client_secret)
+    super(base_url: base_url, client_id: client_id, client_secret: client_secret)
   end
 
   def call
-    puts amount
+    puts Time.now
+    post
+    puts "#{amount}% CPU Used"
+    puts "---\n\n"
+  rescue ServiceResponseError => e
+    puts "CpuUsageService #{e.status}"
+  end
+
+  def path
+    '/cpu_usages'
+  end
+
+  def payload
+    { cpu_usage: { amount: amount } }
   end
 end

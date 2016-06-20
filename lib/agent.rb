@@ -7,11 +7,12 @@ require_relative 'process_table_service'
 
 class Agent
 
-  def initialize(client_id:, client_secret:)
+  def initialize(base_url:, client_id:, client_secret:)
     @scheduler = Rufus::Scheduler.new
     @watcher   = Usagewatch
     @jobs      = []
 
+    @base_url      = base_url
     @client_id     = client_id
     @client_secret = client_secret
   end
@@ -34,36 +35,30 @@ class Agent
 
   def schedule_cpu_usage_job
     @scheduler.every '3s' do
-      puts Time.now
-      CpuUsageService.new(client_id:     @client_id,
+      CpuUsageService.new(base_url:      @base_url,
+                          client_id:     @client_id,
                           client_secret: @client_secret,
                           amount:        @watcher.uw_cpuused).call
-      puts "#{@watcher.uw_cpuused}% CPU Used"
-      puts "---\n\n"
+
     end
   end
 
   def schedule_disk_usage_job
     @scheduler.every '3s' do
-      puts Time.now
-      DiskUsageService.new(client_id:     @client_id,
+      DiskUsageService.new(base_url:      @base_url,
+                           client_id:     @client_id,
                            client_secret: @client_secret,
                            amount:        @watcher.uw_diskused,
                            ratio:         @watcher.uw_diskused_perc).call
-      puts "#{@watcher.uw_diskused} Gigabytes Used"
-      puts "#{@watcher.uw_diskused_perc} Perventage of Gigabytes Used"
-      puts "---\n\n"
     end
   end
 
   def schedule_process_table_job
     @scheduler.every '3s' do
-      puts Time.now
-      ProcessTableService.new(client_id:     @client_id,
+      ProcessTableService.new(base_url:      @base_url,
+                              client_id:     @client_id,
                               client_secret: @client_secret,
                               process_table: @watcher.uw_cputop).call
-      puts "Top Ten Processes By CPU Consumption: #{@watcher.uw_cputop}"
-      puts "---\n\n"
     end
   end
 end

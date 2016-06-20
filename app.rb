@@ -21,7 +21,7 @@ class MonitoringAgent < Sinatra::Base
     end
 
     # Initialize agent.
-    set :agent, Agent.new(client_id: client_id, client_secret: client_secret)
+    set :agent, Agent.new(base_url: server_base_url, client_id: client_id, client_secret: client_secret)
     agent.start
   end
 
