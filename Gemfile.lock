@@ -12,6 +12,9 @@ GEM
     json (1.8.3)
     method_source (0.8.2)
     multipart-post (2.0.0)
+    passenger (5.0.28)
+      rack
+      rake (>= 0.8.1)
     pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -21,6 +24,7 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
+    rake (11.2.2)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -56,6 +60,7 @@ PLATFORMS
 DEPENDENCIES
   faraday
   json
+  passenger
   pry
   rack
   rack-test

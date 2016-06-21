@@ -12,6 +12,7 @@ gem 'faraday'
 
 group :development do
   gem 'pry'
+  gem 'passenger'
 end
 
 group :test do
@@ -21,6 +22,6 @@ group :test do
 end
 
 group :production do
-  # gem 'passenger'
+  gem 'passenger'
 end
 

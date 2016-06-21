@@ -26,8 +26,8 @@ class HttpService
 
   class UnauthorizedError < Error
 
-    def initialize(message = nil, status:)
-      super(message, 401)
+    def initialize(message = nil)
+      super(message, status: 401)
     end
   end
 
