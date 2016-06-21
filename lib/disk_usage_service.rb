@@ -3,7 +3,7 @@ require_relative 'http_api_service'
 class DiskUsageService < HttpApiService
   attr_reader :amount, :ratio
 
-  def initialize(base_url:, client_id:, client_secret:, amount:, ratio:, logger:)
+  def initialize(base_url:, client_id:, client_secret:, logger:, amount:, ratio:)
     @amount = amount
     @ratio  = ratio
     super(base_url: base_url, client_id: client_id, client_secret: client_secret, logger: logger)
@@ -11,12 +11,10 @@ class DiskUsageService < HttpApiService
 
   def call
     logger.info Time.now
-    post
     logger.info "#{amount} Gigabytes Used"
     logger.info "#{ratio} Perventage of Gigabytes Used"
     logger.info "---\n\n"
-  rescue ServiceResponseError => e
-    logger.info "DiskUsageService #{e.status}"
+    post
   end
 
   def path

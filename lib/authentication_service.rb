@@ -1,15 +1,12 @@
 require 'json'
-require_relative 'http_api_service'
+require_relative 'http_service'
 
-class AuthenticationService
+class AuthenticationService < HttpService
   attr_reader :logger
 
   def initialize(base_url:, client_id:, client_secret:, logger:)
-    @client_id     = client_id
-    @client_secret = client_secret
-    @base_url      = base_url
-    @logger        = logger
-    @retry_count   = 3
+    @retry_count = 3
+    super(base_url: base_url, client_id: client_id, client_secret: client_secret, logger: logger)
   end
 
   def call
@@ -36,15 +33,7 @@ class AuthenticationService
     Process.kill("KILL", Process.pid)
   end
 
-  class UnauthorizedError < RuntimeError
-
-  end
-
   private
-
-  def connection
-    Faraday.new(url: @base_url)
-  end
 
   def post
     response = connection.post "/oauth/token",

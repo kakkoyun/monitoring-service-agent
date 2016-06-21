@@ -1,25 +1,11 @@
 require 'json'
+require 'faraday'
+require_relative 'http_service'
 require_relative 'authentication_service'
 
-class HttpApiService
-  attr_reader :base_url, :client_id, :client_secret, :logger
-
-  def initialize(base_url:, client_id:, client_secret:, logger:)
-    @client_id     = client_id
-    @client_secret = client_secret
-    @base_url      = base_url
-    @logger        = logger
-  end
-
-  def call
-    throw NotImplementedError
-  end
+class HttpApiService < HttpService
 
   protected
-
-  def connection
-    Faraday.new(url: base_url)
-  end
 
   def post
     response = connection.post url, payload do |req|
@@ -28,7 +14,7 @@ class HttpApiService
     if response.success?
       JSON.parse(response.body, symbolize_names: true, object_class: OpenStruct)
     else
-      raise ServiceResponseError(status: response.status)
+      raise ResponseError.new(status: response.status)
     end
   end
 
@@ -49,17 +35,5 @@ class HttpApiService
 
   def payload
     throw NotImplementedError
-  end
-
-  class Error < RuntimeError
-    attr_reader :status
-
-    def initialize(message = nil, status:)
-      @status = status
-      super(message)
-    end
-  end
-
-  class ServiceResponseError < Error
   end
 end

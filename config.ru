@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'bundler'
-Bundler.require
+
+Bundler.require(:default)
+Bundler.require(Sinatra::Base.environment)
 
 require File.absolute_path("app.rb")
 

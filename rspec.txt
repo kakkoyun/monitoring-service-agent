@@ -1,0 +1,23 @@
+
+Monitoring Service Agent Application
+[32m  should allow accessing root path[0m
+[32m  should allow accessing start[0m
+[32m  should allow accessing stop[0m
+
+CpuUsageService
+  call the cpu usage service
+[32m    parses response for url[0m
+[32m    raises exception on failure with wrong amount[0m
+
+DiskUsageService
+  call the disk usage service
+[32m    parses response for url[0m
+[32m    raises exception on failure with wrong arguments[0m
+
+ProcessTableService
+  call the process table usage service
+[32m    parses response for url[0m
+
+Finished in 0.07058 seconds (files took 0.73021 seconds to load)
+[32m8 examples, 0 failures[0m
+

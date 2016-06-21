@@ -39,10 +39,11 @@ class Agent
       CpuUsageService.new(base_url:      @base_url,
                           client_id:     @client_id,
                           client_secret: @client_secret,
-                          amount:        @watcher.uw_cpuused,
-                          logger:        @logger).call
-
+                          logger:        @logger,
+                          amount:        @watcher.uw_cpuused).call
     end
+  rescue ResponseError => e
+    logger.info "CpuUsageService #{e.status}"
   end
 
   def schedule_disk_usage_job
@@ -50,10 +51,12 @@ class Agent
       DiskUsageService.new(base_url:      @base_url,
                            client_id:     @client_id,
                            client_secret: @client_secret,
+                           logger:        @logger,
                            amount:        @watcher.uw_diskused,
-                           ratio:         @watcher.uw_diskused_perc,
-                           logger:        @logger).call
+                           ratio:         @watcher.uw_diskused_perc).call
     end
+  rescue ResponseError => e
+    logger.info "DiskUsageService #{e.status}"
   end
 
   def schedule_process_table_job
@@ -61,8 +64,10 @@ class Agent
       ProcessTableService.new(base_url:      @base_url,
                               client_id:     @client_id,
                               client_secret: @client_secret,
-                              process_table: @watcher.uw_cputop,
-                              logger:        @logger).call
+                              logger:        @logger,
+                              process_table: @watcher.uw_cputop).call
     end
+  rescue ResponseError => e
+    logger.info "ProcessTableService #{e.status}"
   end
 end

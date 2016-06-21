@@ -34,8 +34,9 @@ class MonitoringAgent < Sinatra::Base
     file.sync = true
     use Rack::CommonLogger, file
 
-    logger = Logger.new file
-    logger.level = Logger::INFO
+    # Initialize own loagger.
+    logger                 = Logger.new file
+    logger.level           = Logger::INFO
     logger.datetime_format = '%a %d-%m-%Y %H%M '
     set :logger, logger
 
@@ -44,7 +45,10 @@ class MonitoringAgent < Sinatra::Base
                           client_id:     client_id,
                           client_secret: client_secret,
                           logger:        logger)
-    agent.start
+
+    unless settings.environment.to_s == "test"
+      agent.start
+    end
   end
 
   get '/' do
