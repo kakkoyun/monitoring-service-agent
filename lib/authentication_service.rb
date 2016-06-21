@@ -18,7 +18,6 @@ class AuthenticationService < HttpService
           logger.info "Access Token #{access_token}"
           access_token
         else
-          # TODO: Check unauthorized.
           @retry_count -=1
           call
         end
@@ -28,7 +27,6 @@ class AuthenticationService < HttpService
       end
     end
   rescue UnauthorizedError => e
-    # TODO: !!
     logger.info 'Lost connection with server.'
     Process.kill("KILL", Process.pid)
   end
