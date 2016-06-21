@@ -34,6 +34,11 @@ set :deploy_to, '/home/deployer/monitoring-service-agent'
 
 # set :ssh_options, { forward_agent: true }
 
+# Rbenv
+set :rbenv_type, :system
+set :rbenv_ruby, '2.2.5'
+set :rbenv_roles, :all
+
 namespace :deploy do
 
   after :restart, :clear_cache do
