@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-ruby '2.2.4'
+ruby '2.2.5'
 
 gem 'rack'
 gem 'sinatra'
@@ -12,7 +12,12 @@ gem 'faraday'
 
 group :development do
   gem 'pry'
-  gem 'passenger'
+
+  # Deployment
+  gem "capistrano"
+  gem "capistrano-rbenv"
+  gem "capistrano-bundler"
+  gem 'capistrano-passenger'
 end
 
 group :test do
