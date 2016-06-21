@@ -7,6 +7,14 @@ use Rack::Logger
 
 class MonitoringAgent < Sinatra::Base
 
+  use Rack::Auth::Basic, "Protected Area" do |username, password|
+    secrets             = YAML.load_file('config/secrets.yml')
+    environment_secrets = secrets.fetch(settings.environment.to_s)
+    stored_username     = environment_secrets.fetch("username")
+    stored_password     = environment_secrets.fetch("password")
+    username == stored_username && password == stored_password
+  end
+
   helpers do
     def logger
       request.logger
