@@ -18,6 +18,6 @@ ProcessTableService
   call the process table usage service
 [32m    parses response for url[0m
 
-Finished in 0.08048 seconds (files took 0.50863 seconds to load)
+Finished in 0.08302 seconds (files took 0.76684 seconds to load)
 [32m8 examples, 0 failures[0m
 

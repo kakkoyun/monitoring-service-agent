@@ -11,7 +11,7 @@ RSpec.describe ProcessTableService, type: :model do
     let!(:process_table) { [['foo', '4,5']] }
 
     let(:post_url) {
-      "http://localhost:3000/api/v1/process_tables"
+      'http://localhost:3000/api/v1/process_tables'
     }
 
     let(:payload) {
@@ -23,16 +23,16 @@ RSpec.describe ProcessTableService, type: :model do
       ProcessTableService.new(base_url:      'http://localhost:3000/',
                               client_id:     'id',
                               client_secret: 'secret',
-                              logger:        object_double("logger", info: nil),
+                              logger:        object_double('logger', info: nil),
                               process_table: process_table
       ).call
     }
 
     before(:each) {
-      stub_request(:post, "http://localhost:3000/oauth/token")
-          .with(body:    { "client_id" => "id", "client_secret" => "secret", "grant_type" => "client_credentials" },
+      stub_request(:post, 'http://localhost:3000/oauth/token')
+          .with(body:    { 'client_id' => 'id', 'client_secret' => 'secret', 'grant_type' => 'client_credentials' },
                 headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
-          .to_return(status: 200, body: { access_token: "token" }.to_json, headers: {})
+          .to_return(status: 200, body: { access_token: 'token' }.to_json, headers: {})
     }
 
     it 'parses response for url' do

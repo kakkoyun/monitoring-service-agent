@@ -22,19 +22,19 @@ class AuthenticationService < HttpService
           call
         end
       else
-        logger.info "Retry Count exceeded!"
+        logger.info 'Retry Count exceeded!'
         raise UnauthorizedError
       end
     end
   rescue UnauthorizedError => e
     logger.info 'Lost connection with server.'
-    Process.kill("KILL", Process.pid)
+    Process.kill('KILL', Process.pid)
   end
 
   private
 
   def post
-    response = connection.post "/oauth/token",
+    response = connection.post '/oauth/token',
                                { client_id:     @client_id,
                                  client_secret: @client_secret,
                                  grant_type:    'client_credentials'

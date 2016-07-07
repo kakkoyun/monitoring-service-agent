@@ -13,7 +13,7 @@ RSpec.describe DiskUsageService, type: :model do
     let!(:fail_ratio) { 'hodo' }
 
     let(:post_url) {
-      "http://localhost:3000/api/v1/disk_usages"
+      'http://localhost:3000/api/v1/disk_usages'
     }
 
     let(:payload) {
@@ -25,7 +25,7 @@ RSpec.describe DiskUsageService, type: :model do
       DiskUsageService.new(base_url:      'http://localhost:3000/',
                           client_id:     'id',
                           client_secret: 'secret',
-                          logger:        object_double("logger", info: nil),
+                          logger:        object_double('logger', info: nil),
                           amount:        amount,
                           ratio:         ratio
       ).call
@@ -35,17 +35,17 @@ RSpec.describe DiskUsageService, type: :model do
       DiskUsageService.new(base_url:      'http://localhost:3000/',
                           client_id:     'id',
                           client_secret: 'secret',
-                          logger:        object_double("logger", info: nil),
+                          logger:        object_double('logger', info: nil),
                           amount:        fail_amount,
                           ratio:         fail_ratio
       ).call
     }
 
     before(:each) {
-      stub_request(:post, "http://localhost:3000/oauth/token")
-          .with(body:    { "client_id" => "id", "client_secret" => "secret", "grant_type" => "client_credentials" },
+      stub_request(:post, 'http://localhost:3000/oauth/token')
+          .with(body:    { 'client_id' => 'id', 'client_secret' => 'secret', 'grant_type' => 'client_credentials' },
                 headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
-          .to_return(status: 200, body: { access_token: "token" }.to_json, headers: {})
+          .to_return(status: 200, body: { access_token: 'token' }.to_json, headers: {})
     }
 
     it 'parses response for url' do
